@@ -1,1 +1,2 @@
-setuptools==63.2.0
+setuptools==63.3.0
+configparser~=5.2.0
