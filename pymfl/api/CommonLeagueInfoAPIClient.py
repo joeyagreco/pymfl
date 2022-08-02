@@ -71,3 +71,10 @@ class CommonLeagueInfoAPIClient(MFLAPIClient):
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
+
+    @classmethod
+    def get_playoff_bracket(cls, *, year: int, league_id: str, bracket_id: str) -> dict:
+        filters = [("TYPE", "schedule"), ("L", league_id), ("JSON", 1), ("BRACKET_ID", bracket_id)]
+        url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
+        url = cls._add_filters(url, *filters)
+        return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
