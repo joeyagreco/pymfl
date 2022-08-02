@@ -33,7 +33,7 @@ class CommonLeagueInfoAPIClient(MFLAPIClient):
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
 
     @classmethod
-    def get_free_agents(cls, *, year: int, league_id: str, **kwargs) -> dict:
+    def get_free_agents(cls, *, year: int, league_id: str, **kwargs) -> dict:  # TODO: test this
         # Return only players from this position.
         position: str = kwargs.pop("position", None)
         filters = [("TYPE", "freeAgents"), ("L", league_id), ("JSON", 1)]
