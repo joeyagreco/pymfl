@@ -9,8 +9,9 @@ class CommonLeagueInfoAPIClient(MFLAPIClient):
         General league setup parameters for a given league.
         Personal user information like name and email addresses only returned to league owners.
         """
+        filters = [("TYPE", "league"), ("L", league_id), ("JSON", 1)]
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
-        url = cls._add_filters(url, ("TYPE", "league"), ("L", league_id), ("JSON", 1))
+        url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
 
     @classmethod
@@ -18,8 +19,9 @@ class CommonLeagueInfoAPIClient(MFLAPIClient):
         """
         League scoring rules for a given league.
         """
+        filters = ("TYPE", "rules"), ("L", league_id), ("JSON", 1)
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
-        url = cls._add_filters(url, ("TYPE", "rules"), ("L", league_id), ("JSON", 1))
+        url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
 
     @classmethod
