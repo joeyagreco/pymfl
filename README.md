@@ -1,7 +1,6 @@
 <div align="center">
 
 <img src="https://raw.githubusercontent.com/joeyagreco/pymfl/main/img/mfl_logo.png" alt="sleeper logo" width="250"/>
-<br>
 
 Python wrapper for the MyFantasyLeague API.
 
