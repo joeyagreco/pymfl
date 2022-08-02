@@ -4,7 +4,9 @@ from http import HTTPStatus
 from typing import Optional
 
 import requests
+from requests.structures import CaseInsensitiveDict
 
+from pymfl.api.config.APIConfig import APIConfig
 from pymfl.util.ConfigReader import ConfigReader
 
 
@@ -13,9 +15,11 @@ class MFLAPIClient(ABC):
     Should be inherited by all API Clients.
     Sleeper API Documentation: https://api.myfantasyleague.com/2022/api_info
     """
+    __API_CONFIG = APIConfig
     _MFL_APP_BASE_URL = ConfigReader.get("api", "mfl_app_base_url")
 
     # ROUTES
+    _EXPORT_ROUTE = ConfigReader.get("api", "export_route")
 
     @classmethod
     def _build_route(cls, base_url: str, *args) -> str:
@@ -35,9 +39,13 @@ class MFLAPIClient(ABC):
                 url = f"{url}{symbol}{arg[0]}={arg[1]}"
         return url
 
-    @staticmethod
-    def _get(url: str) -> Optional[dict]:
-        response = requests.get(url)
+    @classmethod
+    def _get_for_year_and_league_id(cls, *, url: str, year: int, league_id: str) -> Optional[dict]:
+        api_config = cls.__API_CONFIG.get_config_by_year_and_league_id(year=year, league_id=league_id)
+        headers = CaseInsensitiveDict()
+        headers["Cookie"] = \
+            f"MFL_LAST_LEAGUE_ID: {api_config.league_id}; MFL_USER_ID: {api_config.mfl_user_id}"
+        response = requests.get(url, headers=headers)
         if response.status_code != HTTPStatus.OK:
             raise Exception("BAD STATUS CODE")  # TODO: better error handling
         return response.json()
