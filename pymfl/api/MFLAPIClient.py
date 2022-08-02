@@ -1,7 +1,6 @@
 import xml.etree.ElementTree as ET
 from abc import ABC
 from http import HTTPStatus
-from typing import Optional
 
 import requests
 from requests.structures import CaseInsensitiveDict
@@ -40,7 +39,7 @@ class MFLAPIClient(ABC):
         return url
 
     @classmethod
-    def _get_for_year_and_league_id(cls, *, url: str, year: int, league_id: str) -> Optional[dict]:
+    def _get_for_year_and_league_id(cls, *, url: str, year: int, league_id: str) -> dict:
         api_config = cls.__API_CONFIG.get_config_by_year_and_league_id(year=year, league_id=league_id)
         headers = CaseInsensitiveDict()
         headers["Cookie"] = \
