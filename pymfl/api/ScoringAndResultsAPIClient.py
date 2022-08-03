@@ -88,3 +88,30 @@ class ScoringAndResultsAPIClient(MFLAPIClient):
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
+
+    @classmethod
+    def get_projected_scores(cls, *, year: int, league_id: str, **kwargs) -> dict:
+        """
+        Given a player ID, calculate the expected fantasy points, using that league's scoring system.
+        The system will use the raw stats that fantasysharks.com projects.
+        Private league access restricted to league owners.
+        """
+        # If the week is specified, it returns the projected scores for that week, otherwise the upcoming week is used.
+        week: int = kwargs.pop("week", None)
+        # Pass a list of player ids separated by commas (or just a single player id) to receive back just the info on those players.
+        players: str = kwargs.pop("players", None)
+        # Return only players from this position.
+        position: str = kwargs.pop("position", None)
+        # If set to 'freeagent', returns only players that are fantasy league free agents (note that this refers to players that current free agents, not that were free agents during the specified week).
+        status: str = kwargs.pop("status", None)
+        # Limit the result to this many players.
+        count: int = kwargs.pop("count", None)
+        filters = [("TYPE", "projectedScores"), ("L", league_id), ("JSON", 1)]
+        cls._add_filter_if_given("W", week, filters)
+        cls._add_filter_if_given("PLAYERS", players, filters)
+        cls._add_filter_if_given("POSITION", position, filters)
+        cls._add_filter_if_given("STATUS", status, filters)
+        cls._add_filter_if_given("COUNT", count, filters)
+        url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
+        url = cls._add_filters(url, *filters)
+        return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
