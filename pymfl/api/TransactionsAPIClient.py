@@ -27,7 +27,7 @@ class TransactionsAPIClient(MFLAPIClient):
         # Note than when this field is specified, only transactions from the most common types are returned.
         count: int = kwargs.pop("count", None)
         filters = [("TYPE", "transactions"), ("L", league_id), ("JSON", 1)]
-        cls._add_filter_if_given("week", week, filters)
+        cls._add_filter_if_given("W", week, filters)
         cls._add_filter_if_given("TRANS_TYPE", trans_type, filters)
         cls._add_filter_if_given("FRANCHISE", franchise, filters)
         cls._add_filter_if_given("DAYS", days, filters)

@@ -36,10 +36,8 @@ class CommonLeagueInfoAPIClient(MFLAPIClient):
         # Changes to salary and contract info is not tracked so those fields (if used) always show the current values.
         week: int = kwargs.pop("week", None)
         filters = [("TYPE", "rosters"), ("L", league_id), ("JSON", 1)]
-        if franchise:
-            filters.append(("FRANCHISE", franchise))
-        if week:
-            filters.append(("W", week))
+        cls._add_filter_if_given("W", week, filters)
+        cls._add_filter_if_given("FRANCHISE", franchise, filters)
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
@@ -53,8 +51,7 @@ class CommonLeagueInfoAPIClient(MFLAPIClient):
         # Return only players from this position.
         position: str = kwargs.pop("position", None)
         filters = [("TYPE", "freeAgents"), ("L", league_id), ("JSON", 1)]
-        if position:
-            filters.append(("POSITION", position))
+        cls._add_filter_if_given("POSITION", position, filters)
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
@@ -71,10 +68,8 @@ class CommonLeagueInfoAPIClient(MFLAPIClient):
         # If a franchise id is specified, the schedule for just that franchise is returned.
         franchise_id: str = kwargs.pop("franchise_id", None)
         filters = [("TYPE", "schedule"), ("L", league_id), ("JSON", 1)]
-        if week:
-            filters.append(("W", week))
-        if franchise_id:
-            filters.append(("F", franchise_id))
+        cls._add_filter_if_given("W", week, filters)
+        cls._add_filter_if_given("F", franchise_id, filters)
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
