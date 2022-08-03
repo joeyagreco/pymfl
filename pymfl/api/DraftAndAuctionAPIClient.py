@@ -4,7 +4,7 @@ from pymfl.api.MFLAPIClient import MFLAPIClient
 class DraftAndAuctionAPIClient(MFLAPIClient):
 
     @classmethod
-    def get_draft_results(cls, *, year: int, league_id: str, **kwargs) -> dict:
+    def get_draft_results(cls, *, year: int, league_id: str) -> dict:
         """
         Draft results for a given league.
         Note that this data may be up to 15 minutes delayed as it is meant to display draft results after a draft is completed.
@@ -17,7 +17,7 @@ class DraftAndAuctionAPIClient(MFLAPIClient):
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
 
     @classmethod
-    def get_auction_results(cls, *, year: int, league_id: str, **kwargs) -> dict:
+    def get_auction_results(cls, *, year: int, league_id: str) -> dict:
         """
         Auction results for a given league.
         Private league access restricted to league owners.
@@ -28,7 +28,7 @@ class DraftAndAuctionAPIClient(MFLAPIClient):
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
 
     @classmethod
-    def get_my_draft_list(cls, *, year: int, league_id: str, **kwargs) -> dict:
+    def get_my_draft_list(cls, *, year: int, league_id: str) -> dict:
         """
         My Draft List for the current franchise.
         Access restricted to league owners.

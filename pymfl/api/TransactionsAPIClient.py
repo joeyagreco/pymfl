@@ -87,7 +87,7 @@ class TransactionsAPIClient(MFLAPIClient):
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
 
     @classmethod
-    def get_assets(cls, *, year: int, league_id: str, **kwargs) -> dict:
+    def get_assets(cls, *, year: int, league_id: str) -> dict:
         """
         All tradable assets (players, current year draft picks, future draft picks) for a given league.
         Access restricted to league owners.
