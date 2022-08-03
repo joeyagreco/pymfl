@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 from abc import ABC
 from http import HTTPStatus
+from typing import Optional, Any
 
 import requests
 from requests.structures import CaseInsensitiveDict
@@ -37,6 +38,14 @@ class MFLAPIClient(ABC):
                     symbol = "&"
                 url = f"{url}{symbol}{arg[0]}={arg[1]}"
         return url
+
+    @staticmethod
+    def _add_filter_if_given(key: str, value: Optional[Any], filter_list: list[tuple[str, Any]]):
+        """
+        Helper method for adding filters.
+        """
+        if value is not None:
+            filter_list.append((key, value))
 
     @classmethod
     def _get_for_year_and_league_id(cls, *, url: str, year: int, league_id: str) -> dict:
