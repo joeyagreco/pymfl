@@ -45,7 +45,7 @@ class TransactionsAPIClient(MFLAPIClient):
         # When request comes from the league commissioner, this indicates which franchise they want.
         # Pass in '0000' to get trades pending commissioner action).
         franchise_id: str = kwargs.pop("franchise_id", None)
-        filters = [("TYPE", "transactions"), ("L", league_id), ("JSON", 1)]
+        filters = [("TYPE", "pendingWaivers"), ("L", league_id), ("JSON", 1)]
         cls._add_filter_if_given("FRANCHISE_ID", franchise_id, filters)
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
