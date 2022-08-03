@@ -65,3 +65,23 @@ class TransactionsAPIClient(MFLAPIClient):
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
+
+    @classmethod
+    def get_trade_bait(cls, *, year: int, league_id: str, **kwargs) -> dict:
+        """
+        The Trade Bait for all franchises in a league.
+        Private league access restricted to league owners.
+        """
+        # When set, this will also return draft picks offered.
+        # Current year draft picks look like DP_02_05 which refers to the 3rd round 6th pick
+        # (the round and pick values in the string are one less than the actual round/pick).
+        # For future years picks, they are identified like FP_0005_2018_2
+        # where 0005 refers to the franchise id who originally owns the draft pick, then the year and then the round
+        # (in this case the rounds are the actual rounds, not one less).
+        # This also includes Blind Bid dollars (in leagues that use them), which will be specified as BB_10 to indicate $10 in blind bid dollars.
+        include_draft_picks: bool = kwargs.pop("include_draft_picks", None)
+        filters = [("TYPE", "tradeBait"), ("L", league_id), ("JSON", 1)]
+        cls._add_filter_if_given("INCLUDE_DRAFT_PICKS", include_draft_picks, filters)
+        url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
+        url = cls._add_filters(url, *filters)
+        return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
