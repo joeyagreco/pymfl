@@ -5,7 +5,6 @@ from typing import Optional, Any
 
 import requests
 from requests import Response
-from requests.structures import CaseInsensitiveDict
 
 from pymfl.api.config.APIConfig import APIConfig
 from pymfl.util.ConfigReader import ConfigReader
@@ -56,7 +55,6 @@ class MFLAPIClient(ABC):
     @classmethod
     def _get_response_for_year_and_league_id(cls, *, url: str, year: int, league_id: str) -> Response:
         api_config = cls.__API_CONFIG.get_config_by_year_and_league_id(year=year, league_id=league_id)
-        headers = CaseInsensitiveDict()
         cookies = {"MFL_LAST_LEAGUE_ID": api_config.league_id, "MFL_USER_ID": api_config.mfl_user_id}
         response = requests.get(url, cookies=cookies)
         if response.status_code != HTTPStatus.OK:
