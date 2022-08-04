@@ -55,12 +55,25 @@ class LeaguePlayersAPIClient(MFLAPIClient):
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
 
     @classmethod
-    def get_my_watch_list(cls, *, year: int, league_id: str, **kwargs) -> dict:
+    def get_my_watch_list(cls, *, year: int, league_id: str) -> dict:
         """
         My Watch List for the current franchise.
         Access restricted to league owners.
         """
         filters = [("TYPE", "myWatchList"), ("L", league_id), ("JSON", 1)]
+        url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
+        url = cls._add_filters(url, *filters)
+        return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
+
+    @classmethod
+    def get_salaries(cls, *, year: int, league_id: str) -> dict:
+        """
+        The current player salaries and contract fields.
+        Only players with values are returned.
+        If a value is empty it means that the default value is in effect.
+        The default values are specified under the player id '0000'.
+        """
+        filters = [("TYPE", "salaries"), ("L", league_id), ("JSON", 1)]
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
