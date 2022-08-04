@@ -1,4 +1,5 @@
 from pymfl.api.MFLAPIClient import MFLAPIClient
+from pymfl.enum.APIResponseType import APIResponseType
 
 
 class OtherLeagueInfoAPIClient(MFLAPIClient):
@@ -107,5 +108,6 @@ class OtherLeagueInfoAPIClient(MFLAPIClient):
         filters = [("TYPE", "ics"), ("L", league_id), ("JSON", 1)]
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
-        response = cls._get_response_for_year_and_league_id(url=url, year=year, league_id=league_id)
-        return response.content.decode("utf-8")
+        response = cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id,
+                                                   api_response_type=APIResponseType.CONTENT)
+        return response.decode("utf-8")

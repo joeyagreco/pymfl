@@ -7,6 +7,7 @@ import requests
 from requests import Response
 
 from pymfl.api.config.APIConfig import APIConfig
+from pymfl.enum.APIResponseType import APIResponseType
 from pymfl.util.ConfigReader import ConfigReader
 
 
@@ -48,12 +49,16 @@ class MFLAPIClient(ABC):
             filter_list.append((key, value))
 
     @classmethod
-    def _get_for_year_and_league_id(cls, *, url: str, year: int, league_id: str) -> dict:
-        # TODO: refactor to just use "_get_response_for_year_and_league_id" instead.
-        return cls._get_response_for_year_and_league_id(url=url, year=year, league_id=league_id).json()
+    def _get_for_year_and_league_id(cls, *, url: str, year: int, league_id: str,
+                                    api_response_type: APIResponseType = APIResponseType.JSON) -> dict | bytes:
+        response = cls.__get_response_for_year_and_league_id(url=url, year=year, league_id=league_id)
+        if api_response_type == APIResponseType.JSON:
+            return response.json()
+        elif api_response_type == APIResponseType.CONTENT:
+            return response.content
 
     @classmethod
-    def _get_response_for_year_and_league_id(cls, *, url: str, year: int, league_id: str) -> Response:
+    def __get_response_for_year_and_league_id(cls, *, url: str, year: int, league_id: str) -> Response:
         api_config = cls.__API_CONFIG.get_config_by_year_and_league_id(year=year, league_id=league_id)
         cookies = {"MFL_LAST_LEAGUE_ID": api_config.league_id, "MFL_USER_ID": api_config.mfl_user_id}
         response = requests.get(url, cookies=cookies)
