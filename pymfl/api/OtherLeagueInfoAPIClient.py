@@ -93,3 +93,19 @@ class OtherLeagueInfoAPIClient(MFLAPIClient):
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
+
+    @classmethod
+    def get_ics(cls, *, year: int, league_id: str) -> str:
+        """
+        Returns a summary of the league calendar in .ics format.
+        This format is suitable for importing into many modern calendaring programs such as:
+            - Apple's Calendar
+            - Google Calendar
+            - Microsoft Outlook
+        Access restricted to league owners.
+        """
+        filters = [("TYPE", "ics"), ("L", league_id), ("JSON", 1)]
+        url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
+        url = cls._add_filters(url, *filters)
+        response = cls._get_response_for_year_and_league_id(url=url, year=year, league_id=league_id)
+        return response.content.decode("utf-8")

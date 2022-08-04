@@ -4,6 +4,7 @@ from http import HTTPStatus
 from typing import Optional, Any
 
 import requests
+from requests import Response
 from requests.structures import CaseInsensitiveDict
 
 from pymfl.api.config.APIConfig import APIConfig
@@ -49,13 +50,18 @@ class MFLAPIClient(ABC):
 
     @classmethod
     def _get_for_year_and_league_id(cls, *, url: str, year: int, league_id: str) -> dict:
+        # TODO: refactor to just use "_get_response_for_year_and_league_id" instead.
+        return cls._get_response_for_year_and_league_id(url=url, year=year, league_id=league_id).json()
+
+    @classmethod
+    def _get_response_for_year_and_league_id(cls, *, url: str, year: int, league_id: str) -> Response:
         api_config = cls.__API_CONFIG.get_config_by_year_and_league_id(year=year, league_id=league_id)
         headers = CaseInsensitiveDict()
         cookies = {"MFL_LAST_LEAGUE_ID": api_config.league_id, "MFL_USER_ID": api_config.mfl_user_id}
         response = requests.get(url, cookies=cookies)
         if response.status_code != HTTPStatus.OK:
             raise Exception("BAD STATUS CODE")  # TODO: better error handling
-        return response.json()
+        return response
 
     @staticmethod
     def _post(url: str, body: dict = None, **kwargs) -> dict | ET.Element:
