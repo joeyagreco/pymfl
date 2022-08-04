@@ -50,3 +50,22 @@ class OtherLeagueInfoAPIClient(MFLAPIClient):
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
+
+    @classmethod
+    def get_abilities(cls, *, year: int, league_id: str, **kwargs) -> dict:
+        """
+        Returns the abilities of the current franchise.
+        A value of 0 means the franchise does not have the ability and a value of 1 means it has the ability. Test it!
+        Access restricted to league owners.
+        """
+        filters = [("TYPE", "abilities"), ("L", league_id), ("JSON", 1)]
+        # Franchise ID.
+        # When the request comes from the commissioner, this indicates which franchise's abilities to return.
+        # It's ignored if the request comes from an owner.
+        franchise_id: str = kwargs.pop("franchise_id", None)
+        details: int = kwargs.pop("details", None)
+        cls._add_filter_if_given("F", franchise_id, filters)
+        cls._add_filter_if_given("DETAILS", details, filters)
+        url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
+        url = cls._add_filters(url, *filters)
+        return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
