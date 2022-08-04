@@ -79,3 +79,17 @@ class OtherLeagueInfoAPIClient(MFLAPIClient):
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
+
+    @classmethod
+    def get_rss(cls, *, year: int, league_id: str) -> dict:
+        """
+        An RSS feed of key league data for a given league, including:
+            - league standings
+            - current week's live scoring
+            - last week's fantasy results
+            - the five newest message board topics
+        """
+        filters = [("TYPE", "rss"), ("L", league_id), ("JSON", 1)]
+        url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
+        url = cls._add_filters(url, *filters)
+        return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
