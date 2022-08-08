@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from pymfl.exception.MissingYearAPIConfigException import MissingYearAPIConfigException
+
 
 @dataclass(kw_only=True, frozen=True)
 class YearAPIConfig:
@@ -23,7 +25,11 @@ class APIConfig:
     @classmethod
     def get_config_by_year_and_league_id(cls, *, year: int, league_id: str) -> YearAPIConfig:
         # TODO: add error handling if year/league combo is not found
-        return cls.config_by_year_and_league_id[f"{year}{league_id}"]
+        try:
+            return cls.config_by_year_and_league_id[f"{year}{league_id}"]
+        except KeyError as e:
+            raise MissingYearAPIConfigException(
+                f"Cannot find YearAPIConfig for year '{year}' and league_id '{league_id}'.")
 
     @classmethod
     def add_config_for_year_and_league_id(cls, *, year: int, league_id: str, username: str, password: str,
