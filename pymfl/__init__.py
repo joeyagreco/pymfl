@@ -1,1 +1,1 @@
-from _version import __version__  # noqa
+from pymfl._version import __version__  # noqa
