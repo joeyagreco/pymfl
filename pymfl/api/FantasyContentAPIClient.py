@@ -193,3 +193,22 @@ class FantasyContentAPIClient(MFLAPIClient):
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
+
+    @classmethod
+    def get_top_starters(cls, *, year: int, league_id: str, **kwargs) -> dict:
+        """
+        The most started players across all MyFantasyLeague.com-hosted leagues for the current week,
+        as well as the percentage of leagues that they've been started in.
+        Only players that have been started in at least 1% of our leagues will be displayed. Test it!
+        """
+        filters = [("TYPE", "topStarters"), ("JSON", 1)]
+        # Limits the result to this many players.
+        count: int = kwargs.pop("count", None)
+        # Set this value to FA to only return available free agents.
+        # This option is not available for deluxe leagues.
+        status: str = kwargs.pop("status", None)
+        cls._add_filter_if_given("COUNT", count, filters)
+        cls._add_filter_if_given("STATUS", status, filters)
+        url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
+        url = cls._add_filters(url, *filters)
+        return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
