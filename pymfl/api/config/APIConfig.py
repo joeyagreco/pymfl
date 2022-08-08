@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from pymfl.exception.MissingYearAPIConfigException import MissingYearAPIConfigException
+from pymfl.exception import MissingYearAPIConfigException
 
 
 @dataclass(kw_only=True, frozen=True)
