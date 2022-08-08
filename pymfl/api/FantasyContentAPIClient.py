@@ -50,3 +50,16 @@ class FantasyContentAPIClient(MFLAPIClient):
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
+
+    @classmethod
+    def get_player_ranks(cls, *, year: int, league_id: str, **kwargs) -> dict:
+        """
+        This report provides overall player rankings from the experts at FantasySharks.com.
+        These rankings can be used instead of Average Draft Position (ADP) rankings for guidance during your draft, or when generating your own draft list.
+        """
+        filters = [("TYPE", "playerRanks"), ("JSON", 1)]
+        position = kwargs.pop("POS", None)
+        cls._add_filter_if_given("POS", position, filters)
+        url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
+        url = cls._add_filters(url, *filters)
+        return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
