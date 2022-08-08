@@ -118,3 +118,38 @@ class FantasyContentAPIClient(MFLAPIClient):
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
+
+    @classmethod
+    def get_aav(cls, *, year: int, league_id: str, **kwargs) -> dict:
+        """
+        AAV results, including:
+            - When the result were last updated
+            - How many auctions the player was selected in
+            - Average auction value
+        Average auction value is relative to an auction where a total of $1000 is available across all franchises.
+        """
+        filters = [("TYPE", "aav"), ("JSON", 1)]
+        # This returns auction data for just auctions that started after the specified period.
+        # Valid values are ALL, RECENT, DRAFT, JUNE, JULY, AUG1, AUG15, START, MID, PLAYOFF.
+        # This option is not valid for previous seasons.
+        period: str = kwargs.pop("period", None)
+        # Filters the data returned as follows:
+        #   - If set to 0, data is from leagues that not use a PPR scoring system
+        #   - If set to 1, only from PPR scoring system
+        #   - If set to -1 (or not set), all leagues
+        is_ppr: int = kwargs.pop("is_ppr", None)
+        # Pass a string with some combination of N, K and R:
+        #   - If N specified, returns data from redraft leagues
+        #   - If 'K' is specified, returns data for keeper leagues
+        #   - If 'R' is specified, return data from rookie-only drafts
+        # You can combine these.
+        # If you specify 'KR' it will return rookie and keeper drafts only.
+        # Default is 'NKR'.
+        is_keeper: str = kwargs.pop("is_keeper", None)
+
+        cls._add_filter_if_given("PERIOD", period, filters)
+        cls._add_filter_if_given("IS_PPR", is_ppr, filters)
+        cls._add_filter_if_given("IS_KEEPER", is_keeper, filters)
+        url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
+        url = cls._add_filters(url, *filters)
+        return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
