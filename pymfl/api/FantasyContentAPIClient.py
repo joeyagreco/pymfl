@@ -199,7 +199,7 @@ class FantasyContentAPIClient(MFLAPIClient):
         """
         The most started players across all MyFantasyLeague.com-hosted leagues for the current week,
         as well as the percentage of leagues that they've been started in.
-        Only players that have been started in at least 1% of our leagues will be displayed. Test it!
+        Only players that have been started in at least 1% of our leagues will be displayed.
         """
         filters = [("TYPE", "topStarters"), ("JSON", 1)]
         # Limits the result to this many players.
@@ -209,6 +209,22 @@ class FantasyContentAPIClient(MFLAPIClient):
         status: str = kwargs.pop("status", None)
         cls._add_filter_if_given("COUNT", count, filters)
         cls._add_filter_if_given("STATUS", status, filters)
+        url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
+        url = cls._add_filters(url, *filters)
+        return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
+
+    @classmethod
+    def get_top_trades(cls, *, year: int, league_id: str, **kwargs) -> dict:
+        """
+        The most traded players across all MyFantasyLeague.com-hosted leagues in the current week
+        (or past 7 days during the pre-season),
+        as well as the percentage of leagues that they have been traded in.
+        Only players that are traded in more than 0.25% of our leagues will be displayed.
+        """
+        filters = [("TYPE", "topTrades"), ("JSON", 1)]
+        # Limits the result to this many players.
+        count: int = kwargs.pop("count", None)
+        cls._add_filter_if_given("COUNT", count, filters)
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
