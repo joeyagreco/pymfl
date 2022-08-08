@@ -37,3 +37,16 @@ class NFLContentAPIClient(MFLAPIClient):
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
+
+    @classmethod
+    def get_nfl_bye_weeks(cls, *, year: int, league_id: str, **kwargs) -> dict:
+        """
+        The bye weeks for every NFL team.
+        """
+        filters = [("TYPE", "nflByeWeeks"), ("JSON", 1)]
+        # If the week is specified, it returns just the teams with a bye in that week.
+        week: int = kwargs.pop("week", None)
+        cls._add_filter_if_given("W", week, filters)
+        url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
+        url = cls._add_filters(url, *filters)
+        return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
