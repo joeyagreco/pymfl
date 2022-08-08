@@ -1,4 +1,4 @@
-from pymfl.api import MFLAPIClient
+from pymfl.api.MFLAPIClient import MFLAPIClient
 
 
 class CommunicationsAPIClient(MFLAPIClient):

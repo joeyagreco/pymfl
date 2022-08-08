@@ -3,7 +3,6 @@ from .CommunicationsAPIClient import CommunicationsAPIClient
 from .DraftAndAuctionAPIClient import DraftAndAuctionAPIClient
 from .FantasyContentAPIClient import FantasyContentAPIClient
 from .LeaguePlayersAPIClient import LeaguePlayersAPIClient
-from .MFLAPIClient import MFLAPIClient
 from .NFLContentAPIClient import NFLContentAPIClient
 from .OtherLeagueInfoAPIClient import OtherLeagueInfoAPIClient
 from .ScoringAndResultsAPIClient import ScoringAndResultsAPIClient
