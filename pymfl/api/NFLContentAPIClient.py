@@ -1,4 +1,4 @@
-from pymfl.api.MFLAPIClient import MFLAPIClient
+from pymfl.api import MFLAPIClient
 
 
 class NFLContentAPIClient(MFLAPIClient):

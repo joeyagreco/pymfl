@@ -6,9 +6,9 @@ from typing import Optional, Any
 import requests
 from requests import Response
 
-from pymfl.api.config.APIConfig import APIConfig
-from pymfl.enum.APIResponseType import APIResponseType
-from pymfl.util.ConfigReader import ConfigReader
+from pymfl.api.config import APIConfig
+from pymfl.enum import APIResponseType
+from pymfl.util import ConfigReader
 
 
 class MFLAPIClient(ABC):

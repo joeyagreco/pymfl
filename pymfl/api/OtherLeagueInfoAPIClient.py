@@ -1,5 +1,5 @@
-from pymfl.api.MFLAPIClient import MFLAPIClient
-from pymfl.enum.APIResponseType import APIResponseType
+from pymfl.api import MFLAPIClient
+from pymfl.enum import APIResponseType
 
 
 class OtherLeagueInfoAPIClient(MFLAPIClient):

@@ -1,5 +1,5 @@
-from pymfl.api.MFLAPIClient import MFLAPIClient
-from pymfl.util.ConfigReader import ConfigReader
+from pymfl.api import MFLAPIClient
+from pymfl.util import ConfigReader
 
 
 class SessionAPIClient(MFLAPIClient):
