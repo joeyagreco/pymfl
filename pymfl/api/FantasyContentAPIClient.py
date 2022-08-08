@@ -257,3 +257,18 @@ class FantasyContentAPIClient(MFLAPIClient):
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
+
+    @classmethod
+    def get_who_should_i_start(cls, *, year: int, league_id: str, **kwargs) -> dict:
+        """
+        Site-wide 'Who Should I Start?' data - offering a comparison between any two players at the same position,
+        letting you know what percent of all MFL customers would choose one player over another player.
+        Access restricted to league owners.
+        """
+        filters = [("TYPE", "whoShouldIStart"), ("JSON", 1)]
+        # If specified, filter the results to the passed player ids (separated by commas).
+        players: str = kwargs.pop("players", None)
+        cls._add_filter_if_given("PLAYERS", players, filters)
+        url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
+        url = cls._add_filters(url, *filters)
+        return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
