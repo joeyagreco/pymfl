@@ -8,6 +8,7 @@ from requests import Response
 
 from pymfl.api.config import APIConfig
 from pymfl.enum import APIResponseType
+from pymfl.exception import MFLAPIClientException
 from pymfl.util import ConfigReader
 
 
@@ -53,7 +54,10 @@ class MFLAPIClient(ABC):
                                     api_response_type: APIResponseType = APIResponseType.JSON) -> dict | bytes:
         response = cls.__get_response_for_year_and_league_id(url=url, year=year, league_id=league_id)
         if api_response_type == APIResponseType.JSON:
-            return response.json()
+            json_response = response.json()
+            if "error" in json_response:
+                raise MFLAPIClientException(json_response["error"])
+            return json_response
         elif api_response_type == APIResponseType.CONTENT:
             return response.content
 
