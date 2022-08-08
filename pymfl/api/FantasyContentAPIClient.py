@@ -38,3 +38,15 @@ class FantasyContentAPIClient(MFLAPIClient):
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
+
+    @classmethod
+    def get_all_rules(cls, *, year: int, league_id: str) -> dict:
+        """
+        All scoring rules that MyFantasyLeague.com currently supports, including:
+        if the rule is scored for players, teams or coaches, as well as an abbreviation of the scoring rule, a short description, and a detailed description.
+        If you plan on using the 'rules' data type, you'll also need this data type to look up the abbreviations to translate them to their detailed description for people.
+        """
+        filters = [("TYPE", "allRules"), ("JSON", 1)]
+        url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
+        url = cls._add_filters(url, *filters)
+        return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
