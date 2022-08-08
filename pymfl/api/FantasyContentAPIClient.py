@@ -19,7 +19,7 @@ class FantasyContentAPIClient(MFLAPIClient):
         # Pass a unix timestamp via this parameter to receive only changes to the player database since that time.
         since: str = kwargs.pop("since", None)
         # Pass a list of player ids separated by commas (or just a single player id) to receive back just the info on those players.
-        players = kwargs.pop("players", None)
+        players: str = kwargs.pop("players", None)
         cls._add_filter_if_given("DETAILS", details, filters)
         cls._add_filter_if_given("SINCE", since, filters)
         cls._add_filter_if_given("PLAYERS", players, filters)
@@ -58,8 +58,63 @@ class FantasyContentAPIClient(MFLAPIClient):
         These rankings can be used instead of Average Draft Position (ADP) rankings for guidance during your draft, or when generating your own draft list.
         """
         filters = [("TYPE", "playerRanks"), ("JSON", 1)]
-        position = kwargs.pop("POS", None)
+        position: str = kwargs.pop("POS", None)
         cls._add_filter_if_given("POS", position, filters)
+        url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
+        url = cls._add_filters(url, *filters)
+        return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
+
+    @classmethod
+    def get_adp(cls, *, year: int, league_id: str, **kwargs) -> dict:
+        """
+        ADP results, including:
+            - When the result were last updated
+            - How many drafts the player was selected in
+            - The average pick
+            - Minimum pick
+            - Maximum pick
+        """
+        filters = [("TYPE", "adp"), ("JSON", 1)]
+        # This returns draft data for just drafts that started after the specified period. Valid values are ALL, RECENT, DRAFT, JUNE, JULY, AUG1, AUG15, START, MID, PLAYOFF.
+        # This option is not valid for previous seasons.
+        period: str = kwargs.pop("PERIOD", None)
+        # This returns draft data from just leagues with this number of franchises.
+        # Valid values are 8, 10, 12, 14 or 16.
+        # If the value is 8, it returns data from leagues with 8 or fewer franchises.
+        # If the value is 16 it returns data from leagues with 16 or more franchises.
+        f_count: int = kwargs.pop("f_count", None)
+        # Filters the data returned as follows:
+        #   - If set to 0, data is from leagues that not use a PPR scoring system
+        #   - If set to 1, only from PPR scoring system
+        #   - If set to -1 (or not set), all leagues
+        is_ppr: int = kwargs.pop("is_ppr", None)
+        # Pass a string with some combination of N, K and R:
+        #   - If N specified, returns data from redraft leagues
+        #   - If 'K' is specified, returns data for keeper leagues
+        #   - If 'R' is specified, return data from rookie-only drafts.
+        # You can combine these.
+        # If you specify 'KR' it will return rookie and keeper drafts only. Default is 'NKR'.
+        is_keeper: str = kwargs.pop("is_keeper", None)
+        # If set to 1, returns data from mock draft leagues only.
+        # If set to 0, excludes data from mock draft leagues.
+        # If set to -1, returns all
+        is_mock: int = kwargs.pop("is_mock", None)
+        # Only returns data for players selected in at least this percentage of drafts.
+        # So if you pass 10, it means that players selected in less than 10% of all drafts will not be returned.
+        # Note that if the value is less than 5, the results may be unpredictable.
+        cutoff: int = kwargs.pop("cutoff", None)
+        # If set to 1, it returns the leagues that were included in the results.
+        # This option only works for the current season.
+        details: int = kwargs.pop("details", None)
+
+        cls._add_filter_if_given("PERIOD", period, filters)
+        cls._add_filter_if_given("FCOUNT", f_count, filters)
+        cls._add_filter_if_given("IS_PPR", is_ppr, filters)
+        cls._add_filter_if_given("IS_KEEPER", is_keeper, filters)
+        cls._add_filter_if_given("IS_MOCK", is_mock, filters)
+        cls._add_filter_if_given("CUTOFF", cutoff, filters)
+        cls._add_filter_if_given("DETAILS", details, filters)
+
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
         return cls._get_for_year_and_league_id(url=url, year=year, league_id=league_id)
