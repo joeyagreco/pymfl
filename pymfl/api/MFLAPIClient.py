@@ -76,8 +76,9 @@ class MFLAPIClient(ABC):
             body = dict()
         as_xml = kwargs.pop("as_xml")
         response = requests.post(url, data=body)
-        if response.status_code != HTTPStatus.OK:
-            raise Exception("BAD STATUS CODE")  # TODO: better error handling
         if as_xml:
-            return ET.fromstring(response.content)
+            xml_response = ET.fromstring(response.content)
+            if xml_response.tag == "error":
+                raise MFLAPIClientException(xml_response.text)
+            return xml_response
         return response.json()
