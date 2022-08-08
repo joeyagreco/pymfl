@@ -1,7 +1,7 @@
 import setuptools
 
 pkg_vars = dict()
-with open("_version.py") as f:
+with open("pymfl/_version.py") as f:
     exec(f.read(), pkg_vars)
 
 with open("README.md") as f:
