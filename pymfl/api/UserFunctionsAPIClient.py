@@ -11,7 +11,10 @@ class UserFunctionsAPIClient(MFLAPIClient):
         Personal user information, like name and email addresses only returned to league owners.
         """
         filters = [("TYPE", "myleagues"), ("JSON", 1)]
-        franchise_names: str = kwargs.pop("franchise_names", None)
+        # Set this argument to 1 to include the franchise names in the response.
+        # Note that when this parameter is set and the user has a lot of leagues,
+        # this response may take a long time to process and time out.
+        franchise_names: int = kwargs.pop("franchise_names", None)
         cls._add_filter_if_given("FRANCHISE_NAMES", franchise_names, filters)
         url = cls._build_route(cls._MFL_APP_BASE_URL, year, cls._EXPORT_ROUTE)
         url = cls._add_filters(url, *filters)
