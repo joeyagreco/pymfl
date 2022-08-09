@@ -9,6 +9,8 @@ from pymfl.api import CommonLeagueInfoAPIClient, CommunicationsAPIClient, DraftA
 # Notes:
 #   - These are not all the methods that are available, and to see what is all available you can check out each API Client.
 #   - Many of these methods have optional parameters that can be passed in.
+#   - These responses are returned as dictionary representations of the JSON API response.
+#       - Some responses may have the content wrapped into a dictionary if JSON is not returned from the API.
 
 YEAR = 2020
 LEAGUE_ID = "123456"
