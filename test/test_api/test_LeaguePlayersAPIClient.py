@@ -40,3 +40,59 @@ class TestLeaguePlayersAPIClient(unittest.TestCase):
         self.assertIsInstance(response, dict)
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_contest_players_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = LeaguePlayersAPIClient.get_contest_players(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_my_watch_list_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = LeaguePlayersAPIClient.get_my_watch_list(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_salaries_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = LeaguePlayersAPIClient.get_salaries(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_salary_adjustments_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = LeaguePlayersAPIClient.get_salary_adjustments(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
