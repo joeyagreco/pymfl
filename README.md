@@ -23,6 +23,14 @@ pip install pymfl
 For examples on how to utilize the different features of this library, see
 the [`example`](https://github.com/joeyagreco/pymfl/tree/main/example) folder.
 
+## Running Tests
+
+To run tests, run the following command:
+
+```bash
+  pytest
+```
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
