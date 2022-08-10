@@ -33,8 +33,63 @@ class TestTransactionsAPIClient(unittest.TestCase):
 
         mock_response = MockResponse(mock_dict, 200)
         mock_requests_get.return_value = mock_response
-        response = TransactionsAPIClient.get_transactions(year=self.__TEST_YEAR,
-                                                          league_id=self.__TEST_LEAGUE_ID)
+        response = TransactionsAPIClient.get_transactions(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_pending_waivers_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = TransactionsAPIClient.get_pending_waivers(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_pending_trades_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = TransactionsAPIClient.get_pending_trades(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_trade_bait_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = TransactionsAPIClient.get_trade_bait(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_assets_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = TransactionsAPIClient.get_assets(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(1, len(response.keys()))
