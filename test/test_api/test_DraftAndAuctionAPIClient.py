@@ -26,6 +26,20 @@ class TestDraftAndAuctionAPIClient(unittest.TestCase):
                                                     user_agent_name=cls.__TEST_USER_AGENT_NAME)
 
     @mock.patch("requests.get")
+    def test_get_draft_results_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = DraftAndAuctionAPIClient.get_draft_results(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
     def test_get_auction_results_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -34,6 +48,20 @@ class TestDraftAndAuctionAPIClient(unittest.TestCase):
         mock_response = MockResponse(mock_dict, 200)
         mock_requests_get.return_value = mock_response
         response = DraftAndAuctionAPIClient.get_auction_results(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_my_draft_list_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = DraftAndAuctionAPIClient.get_my_draft_list(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
 
         self.assertIsInstance(response, dict)
         self.assertEqual(1, len(response.keys()))
