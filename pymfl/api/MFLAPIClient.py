@@ -1,6 +1,5 @@
 import xml.etree.ElementTree as ET
 from abc import ABC
-from http import HTTPStatus
 from typing import Optional, Any
 
 import requests
@@ -66,8 +65,7 @@ class MFLAPIClient(ABC):
         api_config = cls.__API_CONFIG.get_config_by_year_and_league_id(year=year, league_id=league_id)
         cookies = {"MFL_LAST_LEAGUE_ID": api_config.league_id, "MFL_USER_ID": api_config.mfl_user_id}
         response = requests.get(url, cookies=cookies)
-        if response.status_code != HTTPStatus.OK:
-            raise Exception("BAD STATUS CODE")  # TODO: better error handling
+        response.raise_for_status()
         return response
 
     @staticmethod
@@ -76,6 +74,7 @@ class MFLAPIClient(ABC):
             body = dict()
         as_xml = kwargs.pop("as_xml")
         response = requests.post(url, data=body)
+        response.raise_for_status()
         if as_xml:
             xml_response = ET.fromstring(response.content)
             if xml_response.tag == "error":
