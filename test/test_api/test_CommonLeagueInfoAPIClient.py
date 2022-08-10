@@ -38,3 +38,104 @@ class TestCommonLeagueInfoAPIClient(unittest.TestCase):
         self.assertIsInstance(response, dict)
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_rules_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = CommonLeagueInfoAPIClient.get_rules(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_rosters_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = CommonLeagueInfoAPIClient.get_rosters(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_free_agents_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = CommonLeagueInfoAPIClient.get_free_agents(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_schedule_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = CommonLeagueInfoAPIClient.get_schedule(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_calendar_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = CommonLeagueInfoAPIClient.get_calendar(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_playoff_brackets_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = CommonLeagueInfoAPIClient.get_playoff_brackets(year=self.__TEST_YEAR,
+                                                                  league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_playoff_bracket_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = CommonLeagueInfoAPIClient.get_playoff_bracket(year=self.__TEST_YEAR,
+                                                                 league_id=self.__TEST_LEAGUE_ID,
+                                                                 bracket_id="1")
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
