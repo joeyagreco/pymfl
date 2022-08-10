@@ -38,3 +38,33 @@ class TestCommunicationsAPIClient(unittest.TestCase):
         self.assertIsInstance(response, dict)
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_message_board_thread_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = CommunicationsAPIClient.get_message_board_thread(year=self.__TEST_YEAR,
+                                                                    league_id=self.__TEST_LEAGUE_ID,
+                                                                    thread_id="1")
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
+
+    @mock.patch("requests.get")
+    def test_get_polls_happy_path(self, mock_requests_get):
+        mock_dict = {
+            "k": "v"
+        }
+
+        mock_response = MockResponse(mock_dict, 200)
+        mock_requests_get.return_value = mock_response
+        response = CommunicationsAPIClient.get_polls(year=self.__TEST_YEAR, league_id=self.__TEST_LEAGUE_ID)
+
+        self.assertIsInstance(response, dict)
+        self.assertEqual(1, len(response.keys()))
+        self.assertEqual("v", response["k"])
