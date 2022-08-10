@@ -7,6 +7,7 @@ Python wrapper for the MyFantasyLeague API.
 [MyFantasyLeague Website](http://home.myfantasyleague.com/)\
 [MyFantasyLeague API Documentation](https://api.myfantasyleague.com/2022/api_info)
 
+![Main Build](https://github.com/joeyagreco/pymfl/actions/workflows/main-build.yml/badge.svg)
 ![Last Commit](https://img.shields.io/github/last-commit/joeyagreco/pymfl)
 </div>
 
