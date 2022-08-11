@@ -24,7 +24,6 @@ class APIConfig:
 
     @classmethod
     def get_config_by_year_and_league_id(cls, *, year: int, league_id: str) -> YearAPIConfig:
-        # TODO: add error handling if year/league combo is not found
         try:
             return cls.config_by_year_and_league_id[f"{year}{league_id}"]
         except KeyError as e:
