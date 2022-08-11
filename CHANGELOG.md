@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/joeyagreco/pymfl/compare/v1.0.0...HEAD)
+## [Unreleased]
 
 - N/A
 
