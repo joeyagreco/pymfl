@@ -6,13 +6,13 @@ class FantasyContentAPIClient(MFLAPIClient):
     @classmethod
     def get_players(cls, *, year: int, league_id: str, **kwargs) -> dict:
         """
-        TODO: caching for this method
         All player IDs, names and positions that MyFantasyLeague.com has in our database for the current year.
         All other data types refer only to player IDs, so if you'd like to later present any data to people,
         you'll need this data type for translating player IDs to player names.
         Our player database is updated at most once per day, and it contains more than 2,000 players.
         In other words, you're strongly encouraged to read this data type no more than once per day and store it locally as needed to optimize your system performance.
         """
+        # TODO: caching for this method
         filters = [("TYPE", "players"), ("JSON", 1)]
         # Set this value to 1 to return complete player details, including player IDs from other sources.
         details: int = kwargs.pop("details", None)
