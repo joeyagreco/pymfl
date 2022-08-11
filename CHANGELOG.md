@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - N/A
 
-## [1.0.1]
+## [1.0.2]
 
 ### Fixed
 
@@ -16,8 +16,8 @@ All notable changes to this project will be documented in this file.
 
 ### Initial Release
 
-[Unreleased]: https://github.com/joeyagreco/pymfl/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/joeyagreco/pymfl/compare/v1.0.2...HEAD
 
-[1.0.1]: https://github.com/joeyagreco/pymfl/compare/v1.0.0...v1.0.1
+[1.0.2]: https://github.com/joeyagreco/pymfl/compare/v1.0.0...v1.0.2
 
 [1.0.0]: https://github.com/joeyagreco/pymfl/releases/tag/v1.0.0
