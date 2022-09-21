@@ -1,6 +1,8 @@
 import unittest
 from unittest import mock
 
+from requests import Session
+
 from pymfl.api import OtherLeagueInfoAPIClient
 from pymfl.api.config import APIConfig
 from test.helper.helper_classes import MockResponse
@@ -14,7 +16,7 @@ class TestOtherLeagueInfoAPIClient(unittest.TestCase):
     __TEST_USER_AGENT_NAME = "user_agent_name"
 
     @classmethod
-    @mock.patch("requests.post")
+    @mock.patch.object(Session, "post")
     def setUpClass(cls, mock_requests_post):
         mock_xml = """<status MFL_USER_ID="test_user_id=">OK</status>"""
         mock_response = MockResponse(dict(), 200, content=mock_xml)
@@ -25,7 +27,7 @@ class TestOtherLeagueInfoAPIClient(unittest.TestCase):
                                                     password=cls.__TEST_PASSWORD,
                                                     user_agent_name=cls.__TEST_USER_AGENT_NAME)
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_future_draft_picks_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -40,7 +42,7 @@ class TestOtherLeagueInfoAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_accounting_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -54,7 +56,7 @@ class TestOtherLeagueInfoAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_pool_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -68,7 +70,7 @@ class TestOtherLeagueInfoAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_survivor_pool_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -82,7 +84,7 @@ class TestOtherLeagueInfoAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_abilities_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -96,7 +98,7 @@ class TestOtherLeagueInfoAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_appearance_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -110,7 +112,7 @@ class TestOtherLeagueInfoAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_rss_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -124,7 +126,7 @@ class TestOtherLeagueInfoAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_ics_happy_path(self, mock_requests_get):
         mock_bytes = b"test_bytes"
 

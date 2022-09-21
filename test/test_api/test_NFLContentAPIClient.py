@@ -1,6 +1,8 @@
 import unittest
 from unittest import mock
 
+from requests import Session
+
 from pymfl.api import NFLContentAPIClient
 from pymfl.api.config import APIConfig
 from test.helper.helper_classes import MockResponse
@@ -14,7 +16,7 @@ class TestNFLContentAPIClient(unittest.TestCase):
     __TEST_USER_AGENT_NAME = "user_agent_name"
 
     @classmethod
-    @mock.patch("requests.post")
+    @mock.patch.object(Session, "post")
     def setUpClass(cls, mock_requests_post):
         mock_xml = """<status MFL_USER_ID="test_user_id=">OK</status>"""
         mock_response = MockResponse(dict(), 200, content=mock_xml)
@@ -25,7 +27,7 @@ class TestNFLContentAPIClient(unittest.TestCase):
                                                     password=cls.__TEST_PASSWORD,
                                                     user_agent_name=cls.__TEST_USER_AGENT_NAME)
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_injuries_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -39,7 +41,7 @@ class TestNFLContentAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_nfl_schedule_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -53,7 +55,7 @@ class TestNFLContentAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_nfl_bye_weeks_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -67,7 +69,7 @@ class TestNFLContentAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_points_allowed_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
