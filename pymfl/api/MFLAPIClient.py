@@ -3,7 +3,7 @@ from abc import ABC
 from typing import Optional, Any
 
 import requests
-from requests import Response
+from requests import Response, Session
 
 from pymfl.api.config import APIConfig
 from pymfl.enum import APIResponseType
@@ -63,8 +63,7 @@ class MFLAPIClient(ABC):
     @classmethod
     def __get_response_for_year_and_league_id(cls, *, url: str, year: int, league_id: str) -> Response:
         api_config = cls.__API_CONFIG.get_config_by_year_and_league_id(year=year, league_id=league_id)
-        cookies = {"MFL_LAST_LEAGUE_ID": api_config.league_id, "MFL_USER_ID": api_config.mfl_user_id}
-        response = requests.get(url, cookies=cookies)
+        response = api_config.session.get(url)
         response.raise_for_status()
         return response
 
@@ -73,7 +72,8 @@ class MFLAPIClient(ABC):
         if body is None:
             body = dict()
         as_xml = kwargs.pop("as_xml")
-        response = requests.post(url, data=body)
+        session: Session = kwargs.pop("session")
+        response = session.post(url, data=body)
         response.raise_for_status()
         if as_xml:
             xml_response = ET.fromstring(response.content)

@@ -1,6 +1,8 @@
 import unittest
 from unittest import mock
 
+from requests import Session
+
 from pymfl.api import FantasyContentAPIClient
 from pymfl.api.config import APIConfig
 from test.helper.helper_classes import MockResponse
@@ -14,7 +16,7 @@ class TestFantasyContentAPIClient(unittest.TestCase):
     __TEST_USER_AGENT_NAME = "user_agent_name"
 
     @classmethod
-    @mock.patch("requests.post")
+    @mock.patch.object(Session, "post")
     def setUpClass(cls, mock_requests_post):
         mock_xml = """<status MFL_USER_ID="test_user_id=">OK</status>"""
         mock_response = MockResponse(dict(), 200, content=mock_xml)
@@ -25,7 +27,7 @@ class TestFantasyContentAPIClient(unittest.TestCase):
                                                     password=cls.__TEST_PASSWORD,
                                                     user_agent_name=cls.__TEST_USER_AGENT_NAME)
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_players_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -39,7 +41,7 @@ class TestFantasyContentAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_player_profile_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -55,7 +57,7 @@ class TestFantasyContentAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_all_rules_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -69,7 +71,7 @@ class TestFantasyContentAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_player_ranks_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -83,7 +85,7 @@ class TestFantasyContentAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_adp_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -97,7 +99,7 @@ class TestFantasyContentAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_aav_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -111,7 +113,7 @@ class TestFantasyContentAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_top_adds_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -125,7 +127,7 @@ class TestFantasyContentAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_top_drops_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -139,7 +141,7 @@ class TestFantasyContentAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_top_starters_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -153,7 +155,7 @@ class TestFantasyContentAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_top_trades_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -167,7 +169,7 @@ class TestFantasyContentAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_top_owns_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -181,7 +183,7 @@ class TestFantasyContentAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_site_news_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
@@ -195,7 +197,7 @@ class TestFantasyContentAPIClient(unittest.TestCase):
         self.assertEqual(1, len(response.keys()))
         self.assertEqual("v", response["k"])
 
-    @mock.patch("requests.get")
+    @mock.patch.object(Session, "get")
     def test_get_who_should_i_start_happy_path(self, mock_requests_get):
         mock_dict = {
             "k": "v"
